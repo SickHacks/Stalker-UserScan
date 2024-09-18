@@ -83,7 +83,7 @@ def obtener_os(ttl):
         return "Linux / MacOS"
 
 
-archivo_oui = 'oui_list.txt'
+archivo_oui = 'Stalker-UserScan/oui_list.txt'
 lista_oui = cargar_diccionario_oui(archivo_oui)
 
 ip_cliente = obtener_ip()
