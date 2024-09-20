@@ -36,6 +36,3 @@ $ python3 Stalker-UserScan
 
 ### Happy Hacking!
 
-:::TIP
-Hola
-:::
