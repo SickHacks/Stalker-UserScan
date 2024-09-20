@@ -1,7 +1,5 @@
 import socket
 import uuid
-import subprocess
-import re
 import platform
  
 
