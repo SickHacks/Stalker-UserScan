@@ -48,17 +48,19 @@ def cargar_diccionario_oui(archivo):
 def obtener_os():
     sistema_cliente = platform.system()
 
-    if sistema_cliente == 'Windows' or 'Linux' or "AIX" or "FreeBSD":
-        return sistema_cliente
-    elif sistema_cliente == 'Darwin':
-        return 'MacOS'
-    elif sistema_cliente == 'Java':
-        return 'Java Virtual Machine (JVM).'
-    elif sistema_cliente == 'SunOS':
-        return 'SunOS: También conocido como Solaris.'
-    else:
-        return 'No se reconoce el sistema operativo'
-    
+    match sistema_cliente:
+        case 'Windows' | 'Linux' | 'AIX' | 'FreeBSD':
+            resultado = sistema_cliente
+        case 'Darwin':
+            resultado = 'MacOS'
+        case 'Java':
+            resultado = 'Java Virtual Machine (JVM).'
+        case 'SunOS':
+            resultado = 'SunOS: También conocido como Solaris.'
+        case _:
+            resultado = 'No se reconoce el sistema operativo'
+    return resultado
+
 
 archivo_oui = 'Stalker-UserScan/oui_list.txt'
 lista_oui = cargar_diccionario_oui(archivo_oui)
@@ -71,8 +73,7 @@ nombre_fabricante = lista_oui.get(oui_cliente, 'Desconocido')
 # Menú principal
 def menu():
     while True:
-        print("\n")
-        print("""
+        print("""\n
               
 ███████╗████████╗ █████╗ ██╗     ██╗  ██╗███████╗██████╗ 
 ██╔════╝╚══██╔══╝██╔══██╗██║     ██║ ██╔╝██╔════╝██╔══██╗
@@ -82,48 +83,28 @@ def menu():
 ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
          Herramienta de escaneo a usuarios""")
 
-        print("---------------------------------------------------------")
-        print("Seleccione una opcion")
-        print("[1] Escanear")
-        print("[0] Salir")
-        opcion = input("-> ")
+        opcion = input(
+            "---------------------------------------------------------\nSeleccione una opcion\n[1] Escanear\n[0] Salir\n-> ")
 
-        if opcion == '1':
-            print("--------------------- RESULTADOS ------------------------")
-            print(f"[+] IP: {ip_cliente}")
-            print(f"[+] Dispositivo: {nombre_fabricante}")
-            print(f"[+] Sistema operativo: {os_cliente}")
-            print("---------------------------------------------------------")
-            print("Seleccione una opcion")
-            print("[1] Volver al menu")
-            print("[2] Mas detalles")
-            print("[0] Salir")
-            volver = input("-> ")
-            if volver == '1':
-                print("[+] Volviendo al menu principal")
-
-            elif volver == '2':
-                print("-------------------- MAS DETALLES -----------------------")
-                print(f"[+] MAC (Media Access Control): {mac_cliente}")
-                print("")
-                print("Seleccione una opcion")
-                print("[1] Volver al menu")
-                print("[0] Salir")
+        match opcion:
+            case '1':
+                print(f"--------------------- RESULTADOS ------------------------"
+                    f"\n[+] IP: {ip_cliente}\n[+] Dispositivo: {nombre_fabricante}\n[+] Sistema operativo: {os_cliente}\n[+] MAC (Media Access Control): {mac_cliente}\n---------------------------------------------------------"
+                    f"\nSeleccione una opcion\n[1] Volver al menu\n[0] Salir")
                 volver = input("-> ")
-                if volver == '1':
-                    print("[+] Volviendo al menu principal")
-                elif volver == '0':
-                    print ("[+] Saliendo del programa")
-                    break
-            elif volver == '0':
+                match volver:
+                    case '1':
+                        print("[+] Volviendo al menu principal")
+
+                    case '0':
+                        print("[+] Saliendo del programa")
+                        break
+                    case _:
+                        print("Opcion invalida, intente nuevamente")
+            case '0':
                 print("[+] Saliendo del programa")
                 break
-            else:
+            case _:
                 print("Opcion invalida, intente nuevamente")
-        elif opcion == '0':
-            print("[+] Saliendo del programa")
-            break
-        else:
-            print("Opcion invalida, intente nuevamente")
 
 menu()
